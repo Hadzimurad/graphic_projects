@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.10)
+project(OpenGLTriangle)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Исходные файлы
+set(SOURCES
+    src/main.cpp
+    src/glad.c
+)
+
+# Сначала создаем исполняемый файл
+add_executable(triangle ${SOURCES})
+
+# ПОСЛЕ создания добавляем include директории
+target_include_directories(triangle PRIVATE include "C:/glm-1.0.3")
+
+# Поиск библиотек
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+
+# Линковка библиотек
+target_link_libraries(triangle 
+    OpenGL::GL
+    glfw3
+)
+
+# Дополнительные библиотеки для Windows
+if(WIN32)
+    target_link_libraries(triangle 
+        gdi32 
+        user32 
+        shell32
+    )
+endif()
+
+# Сообщение об успешной конфигурации
+message(STATUS "Project configured successfully!")
+message(STATUS "OpenGL found: ${OPENGL_FOUND}")
+message(STATUS "GLFW found: ${glfw3_FOUND}")
+message(STATUS "GLM path: C:/glm-1.0.3")

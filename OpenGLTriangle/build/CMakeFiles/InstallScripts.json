@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/project/OpenGLTriangle/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
