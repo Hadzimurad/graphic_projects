@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/project/OpenGLTriangle/build/cmake_install.cmake",
+		"C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/cmake_install.cmake",
+		"C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/glm/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

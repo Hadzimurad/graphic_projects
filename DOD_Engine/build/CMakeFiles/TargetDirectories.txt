@@ -1,0 +1,8 @@
+C:/project/OpenGLTriangle/build/CMakeFiles/triangle.dir
+C:/project/OpenGLTriangle/build/CMakeFiles/edit_cache.dir
+C:/project/OpenGLTriangle/build/CMakeFiles/rebuild_cache.dir
+C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/CMakeFiles/edit_cache.dir
+C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/CMakeFiles/rebuild_cache.dir
+C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/glm/CMakeFiles/glm.dir
+C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/glm/CMakeFiles/edit_cache.dir
+C:/project/OpenGLTriangle/build/third_party/glm-1.0.3/glm/CMakeFiles/rebuild_cache.dir

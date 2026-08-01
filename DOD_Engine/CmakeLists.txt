@@ -1,0 +1,61 @@
+cmake_minimum_required(VERSION 3.10)
+project(OpenGLTriangle)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 1. Поиск внешних системных библиотек
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+
+# 2. Подключение внутренних подпроектов (GLM должен лежать в third_party/glm)
+# Внутри third_party/glm должен быть родной CMakeLists.txt от самой библиотеки GLM
+add_subdirectory(third_party/glm-1.0.3)
+
+# 3. Создание исполняемого файла (убрали дубли из SOURCES, указали всё один раз)
+add_executable(triangle 
+    src/main.cpp 
+    src/glad.c 
+    src/RenderSystem/file_manager/file_reading.cpp 
+    src/Window/window_glfw.cpp
+    src/RenderSystem/renderSystem.cpp
+    src/RenderSystem/PrimitiveFactory/PrimitiveFactory.cpp
+)
+
+# 4. Флаги компиляции и SIMD-оптимизации
+# -mfma включает инструкции на уровне процессора, а GLM_FORCE_INTRINSICS заставляет GLM их использовать
+target_compile_options(triangle PRIVATE -mfma)
+target_compile_definitions(triangle PRIVATE GLM_FORCE_INTRINSICS)
+
+# 5. Копирование шейдеров в бинарную директорию
+file(COPY 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RenderSystem/fragment.glsl 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/RenderSystem/vertex.glsl 
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+# 6. Include директории (ТОЛЬКО ваши локальные хедера, GLM сюда писать НЕ НАДО)
+target_include_directories(triangle PRIVATE "include")
+target_include_directories(triangle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# 7. Линковка (glm::glm автоматически пробросит свои include пути в ваш проект!)
+target_link_libraries(triangle PRIVATE
+    OpenGL::GL 
+    glfw3 
+    glm::glm
+)
+
+# Дополнительные библиотеки для Windows
+if(WIN32)
+    target_link_libraries(triangle PRIVATE gdi32 user32 shell32)
+    # Исправляем финальный лог для Windows, так как GLM теперь внутри проекта
+    set(GLM_LOG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/third_party/glm")
+else()
+    set(GLM_LOG_PATH "Integrated via subdirectory")
+endif()
+
+# Сообщения об успешной конфигурации
+message(STATUS "Project configured successfully!")
+message(STATUS "OpenGL found: ${OPENGL_FOUND}")
+message(STATUS "GLFW found: ${glfw3_FOUND}")
+message(STATUS "GLM path used: ${GLM_LOG_PATH}")
